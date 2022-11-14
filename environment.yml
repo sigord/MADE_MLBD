@@ -1,0 +1,15 @@
+# run: conda env create --file environment.yml
+name: mlbd
+channels:
+ - conda-forge
+ - anaconda
+ - defaults
+dependencies:
+- python>=3.8
+- jupyter>=1.0.0
+- numpy>=1.10.1
+- matplotlib>=1.4.3
+- pandas>=0.17.1
+- requests>=2.7.0
+- scikit-learn
+- tqdm
