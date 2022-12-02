@@ -9,6 +9,7 @@ import java.io.File
 object Path{
   val train: String = "../train.csv"
   val test: String = "../test.csv"
+  val predict: String = "../predict.csv"
   val pictures: String = "../pictures/"
 }
 
@@ -183,5 +184,8 @@ object Main {
 
     x_plot_var = convert(DenseVector((1 to test_Y.length).toArray), Double)
     LR.plot_result(save_path = "true_pred.png", x_plot_var, List(test_Y, test_pred), "Index","Y")
+
+    //save result
+    csvwrite(new File(Path.predict), test_pred.asDenseMatrix.t)
   }
 }

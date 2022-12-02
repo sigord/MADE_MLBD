@@ -130,3 +130,6 @@ dmypy.json
 
 #my
 *.pdf
+docker_repo/docker-hadoop
+.DS_Store
+docker_repo
