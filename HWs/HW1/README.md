@@ -22,7 +22,6 @@ docker compose up --force-recreate
 ![image2](part1/rm.png)
 ![image2](part1/rm_finished.png)
 
-
 ## Part 2
 
 Предварительно загрузим данные с [kaggle](https://www.kaggle.com/datasets/dgomonov/new-york-city-airbnb-open-data) в папку `part2/data`.
@@ -35,7 +34,7 @@ docker exec -it namenode bash
 hdfs dfs -put AB_NYC_2019.csv /
 ```
 
-Получим локальыне результаты:
+Получим локальные результаты:
 
 ```bash
     cd part2/src
