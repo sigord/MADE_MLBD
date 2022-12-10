@@ -1,0 +1,10 @@
+seen live	Coldplay	5381567	1
+rock	Coldplay	5381567	1
+pop	Coldplay	5381567	1
+electronic	Coldplay	5381567	1
+indie	Coldplay	5381567	1
+alternative	Coldplay	5381567	1
+experimental	Radiohead	4732528	1
+female vocalists	Rihanna	4558193	1
+All	Jason Derülo	1872933	1
+under 2000 listeners	Diddy - Dirty Money	503188	1

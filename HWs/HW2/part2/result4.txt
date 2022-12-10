@@ -1,0 +1,71 @@
+United States	450
+United Kingdom	280
+France	263
+Italy	238
+	237
+Germany	224
+Japan	177
+Austria	74
+Russia	65
+Spain	63
+Netherlands	55
+Poland	48
+Czech Republic	46
+Finland	38
+Belgium	36
+Australia	36
+Sweden	35
+Canada	32
+Norway	30
+Brazil	25
+Switzerland	22
+Denmark	22
+Hungary	18
+Argentina	16
+Estonia	14
+Ukraine	13
+Turkey	12
+Romania	12
+Iceland	12
+China	12
+Portugal	11
+Ireland	11
+Mexico	11
+Greece	9
+Soviet Union	9
+Iran	8
+Latvia	8
+Lithuania	7
+India	6
+New Zealand	6
+Armenia	6
+Slovakia	4
+Serbia	3
+Bulgaria	3
+Israel	3
+South Africa	3
+Georgia	3
+Azerbaijan	3
+Lebanon	2
+Venezuela	2
+South Korea	2
+Philippines	2
+Peru	2
+Jamaica	2
+Cuba	2
+Croatia	2
+Uzbekistan	1
+Vietnam	1
+Liechtenstein	1
+Chile	1
+Macedonia	1
+Mongolia	1
+Morocco	1
+Pakistan	1
+Belarus	1
+Palestine	1
+Slovenia	1
+Tunisia	1
+Uruguay	1
+Czechoslovakia	1
+Indonesia	1
