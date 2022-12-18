@@ -33,7 +33,7 @@ trait LinearRegressionParams extends HasInputCol with HasOutputCol {
   def setEps(value: Double): this.type = set(eps, value)
 
   setDefault(n_steps, 1000)
-  setDefault(lr, 1e-3)
+  setDefault(lr, 1e-1)
   setDefault(eps, 1e-4)
 
   protected def validateAndTransformSchema(schema: StructType): StructType = {
@@ -67,10 +67,10 @@ class LinearRegression(override val uid: String) extends Estimator[LinearRegress
       vectors.first().size
     )
 
-    val w: l.DenseVector[Double] = l.DenseVector.ones[Double](dim)
-    val bc_w = sparkSession.sparkContext.broadcast(w)
+    val w: l.DenseVector[Double] = l.DenseVector.zeros[Double](dim - 1)
+    var bc_w = sparkSession.sparkContext.broadcast(w)
+    println(w.length)
 
-    l.DenseVector(bc_w.value)
     //TODO Write fit function
 
     val steps: Int = getSteps
@@ -79,23 +79,23 @@ class LinearRegression(override val uid: String) extends Estimator[LinearRegress
     val N: Double = vectors.count()
     val meanLR: Double = lr/N
 
-//    def mse_dir(X: DenseMatrix[Double], Y: DenseVector[Double], W: DenseVector[Double]): DenseVector[Double] = {
-//      (X.t * (X * W - Y)) *:* 2.0 /:/ convert(Y.length, Double)
-//    }
+    var gradientNorm: Double = 0.0
 
     for (i <- 1 to steps){
-      val gradient = vectors.rdd.mapPartitions((partition: Iterator[Vector]) => {
+      var gradient = vectors.rdd.mapPartitions((partition: Iterator[Vector]) => {
         partition.map(row => {
           val trainVector: l.DenseVector[Double] = l.DenseVector[Double](row.toArray)
           val train_X = trainVector(0 to -2)
           val train_Y = trainVector(-1)
-          ((train_X dot bc_w.value) - train_Y) * train_X
+          (((train_X dot bc_w.value) - train_Y) * train_X) * 2.0
         })
+      }).reduce((_+_))
 
-      })
+
+      //update weights
+      w -= meanLR * gradient
+      bc_w = sparkSession.sparkContext.broadcast(w)
     }
-
-
     copyValues(new LinearRegressionModel(Vectors.fromBreeze(w))).setParent(this)
   }
 

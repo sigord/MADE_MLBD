@@ -35,15 +35,22 @@ object Main {
     ))
 
     val model = pipeline.fit(df)
-    val w = model.stages.last.asInstanceOf[r.LinearRegressionModel].coefficients
+    val w_default = model.stages.last.asInstanceOf[r.LinearRegressionModel].coefficients
 
     //train our model
+    val ourPipline = new Pipeline().setStages(Array(
+      new VectorAssembler()
+        .setInputCols(Array("x1", "x2", "x3", "y"))
+        .setOutputCol("features"),
+      new LinearRegression().setInputCol("features").setOutputCol("target")
+    ))
 
-    df.show(5)
-    println(w)
-    //
-    //    println(data)
-    //    println("Hello world!")
+    val outModel = ourPipline.fit(df)
+    val w_our = outModel.stages.last.asInstanceOf[LinearRegressionModel].weights
+//    df.show(5)
+    println("Default model weights:", w_default)
+    println("Our model weights:", w_our)
+
     spark.stop()
   }
 }
