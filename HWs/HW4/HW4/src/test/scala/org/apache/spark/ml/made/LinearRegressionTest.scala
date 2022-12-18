@@ -30,7 +30,15 @@ class LinearRegressionTest extends AnyFlatSpec with should.Matchers with  WithSp
     val estimator = new LinearRegression()
       .setInputCol("features").setOutputCol("target")
 
+    val model = estimator.fit(data)
+    val w = model.weights
 
+    w.size should be(4)
+
+    w(0) should be(weights(0) +- delta)
+    w(1) should be(weights(1) +- delta)
+    w(2) should be(weights(2) +- delta)
+    w(3) should be(weights(3) +- delta)
   }
 
   "Estimator" should "work after re-read" in {

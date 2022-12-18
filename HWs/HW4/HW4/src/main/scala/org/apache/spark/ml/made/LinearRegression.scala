@@ -28,13 +28,8 @@ trait LinearRegressionParams extends HasInputCol with HasOutputCol {
   def getLR: Double = $(lr)
   def setLR(value: Double): this.type = set(lr, value)
 
-  val eps = new DoubleParam(this, "eps", "Epsilon")
-  def getEps: Double = $(eps)
-  def setEps(value: Double): this.type = set(eps, value)
-
   setDefault(n_steps, 1000)
   setDefault(lr, 1e-1)
-  setDefault(eps, 1e-4)
 
   protected def validateAndTransformSchema(schema: StructType): StructType = {
     checkColumnType(schema, getInputCol, new VectorUDT())
@@ -71,15 +66,11 @@ class LinearRegression(override val uid: String) extends Estimator[LinearRegress
     var bc_w = sparkSession.sparkContext.broadcast(w)
     println(w.length)
 
-    //TODO Write fit function
 
     val steps: Int = getSteps
     val lr: Double = getLR
-    val eps: Double = getEps
     val N: Double = vectors.count()
     val meanLR: Double = lr/N
-
-    var gradientNorm: Double = 0.0
 
     for (i <- 1 to steps){
       var gradient = vectors.rdd.mapPartitions((partition: Iterator[Vector]) => {
@@ -122,7 +113,6 @@ class LinearRegressionModel private[made]
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     val bweights = weights.asBreeze.toDenseVector
-    //TODO HOW FIX
     val coeff = Vectors.fromBreeze(bweights(0 to bweights.length -1))
 
     val transformUdf = dataset.sqlContext.udf.register(

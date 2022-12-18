@@ -4,7 +4,7 @@ import breeze.{linalg => l}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.{regression => r}
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 
 object Main {
@@ -45,12 +45,30 @@ object Main {
       new LinearRegression().setInputCol("features").setOutputCol("target")
     ))
 
-    val outModel = ourPipline.fit(df)
-    val w_our = outModel.stages.last.asInstanceOf[LinearRegressionModel].weights
-//    df.show(5)
+    val ourModel = ourPipline.fit(df)
+    val w_our = ourModel.stages.last.asInstanceOf[LinearRegressionModel].weights
+
     println("Default model weights:", w_default)
     println("Our model weights:", w_our)
 
+
+    val features_df: DataFrame = X(l.*, ::).iterator
+      .map(x => (x(0), x(1), x(2)))
+      .toSeq.toDF("x1", "x2", "x3")
+    val formatter = new VectorAssembler()
+      .setInputCols(Array("x1", "x2", "x3"))
+      .setOutputCol("features")
+    val features_X = formatter.transform(features_df)
+
+
+    val predictionModel: LinearRegressionModel = new LinearRegressionModel(w_our)
+      .setInputCol("features").setOutputCol("target")
+    val pred = predictionModel.transform(features_X)
+    val vectors: Array[Double] = pred.collect().map(_.getAs[Double]("target"))
+
+
+    println("Original target",  y(0 to 10))
+    println("Predicted target", l.DenseVector[Double](vectors.slice(0, 10).toArray))
     spark.stop()
   }
 }
