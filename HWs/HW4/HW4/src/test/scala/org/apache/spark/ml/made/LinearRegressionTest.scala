@@ -33,7 +33,7 @@ class LinearRegressionTest extends AnyFlatSpec with should.Matchers with  WithSp
     val model = estimator.fit(data)
     val w = model.weights
 
-    w.size should be(4)
+    w.sizeУ мен should be(4)
 
     w(0) should be(weights(0) +- delta)
     w(1) should be(weights(1) +- delta)
