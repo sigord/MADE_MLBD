@@ -21,4 +21,4 @@
 ## HW 5 Python
 
 * Text classification in Spark
-* HTF, IDF, w2v
+* TF, IDF, w2v
